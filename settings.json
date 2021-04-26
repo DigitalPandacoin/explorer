@@ -1,0 +1,167 @@
+/*
+  This file must be valid JSON. But comments are allowed
+
+  Please edit settings.json, not settings.json.template
+*/
+{
+  // name your instance!
+  "title": "Pandacoin Block Explorer",
+
+  "address": "https://server1.cryptodepot.org:3001/",
+
+  // coin name
+  "coin": "Pandacoin",
+
+  // coin symbol
+  "symbol": "PND",
+
+  // logo
+  //"logo": "http://server1.cryptodepot.org/pnd.logo.png",
+  "logo": "https://server1.cryptodepot.org:3001/images/pnd.logo.png",
+  // favicon
+  "favicon": "public/pandacoin.ico",
+
+  // Uses bootswatch themes (http://bootswatch.com/)
+  // Valid options:
+  //     Cerulean, Cosmo, Cyborg, Darkly, Flatly, Journal, Lumen, Paper,
+  //     Readable, Sandstone, Simplex, Slate, Spacelab, Superhero, United, Yeti
+  // theme (see /public/themes for available themes)
+  "theme": "Yeti",
+
+  // port to listen for requests on.
+  "port" : 3002,
+
+  // database settings (MongoDB)
+  "dbsettings": {
+    "user": "explorer",
+    "password": "xxx",
+    "database": "explorerdb_new",
+    "address": "localhost",
+    "port": 27017
+  },
+
+  //update script settings
+  "update_timeout": 10,
+  "check_timeout": 250,
+
+  // wallet settings
+  "wallet": {
+    "host": "localhost",
+    "port": 10001,
+    "user": "pandacoinuser",
+    "pass": "xxx"
+  },
+
+  // confirmations
+  "confirmations": 10,
+
+  // language settings
+  "locale": "locale/en.json",
+
+  // menu settings
+  "display": {
+    "api": true,
+    "markets": false,
+    "richlist": true,
+    "twitter": false,
+    "facebook": false,
+    "discord": false,
+    "googleplus": false,
+    "search": true,
+    "movement": true,
+    "network": true,
+    "reward": false,
+    "blocks": true
+  },
+
+  // index page (valid options for difficulty are POW, POS or Hybrid)
+  "index": {
+    "show_hashrate": true,
+    "difficulty": "POS",
+    "last_txs": 100
+  },
+
+  // ensure links on API page are valid
+  "api": {
+    "blockindex": 1000000,
+    "blockhash": "55756e522e0cdc08f92fe94176adc3858f76d9af7775a8f9e4c6441bdf7fc549",
+    "txhash": "3496c731a40cd2b4ee75f33e02b167ca79eb715a6f0b7c52ff828dfeef0a9aff",
+    "address": "PBgxR2M8oQp1PefDqBh2QMpUqSw4bVhTjC"
+  },
+
+  // market settings
+  //supported markets: bittrex, poloniex, yobit, empoex, bleutrade, cryptopia, ccex
+  //default market is loaded by default and determines last price in header
+  "markets": {
+    "coin": "OLDPND",
+    "exchange": "BTC",
+    "enabled": ["yobit"],
+    "cryptopia_id": "1893",
+    "default": "yobit"
+  },
+
+  // richlist/top100 settings
+  "richlist": {
+    "distribution": true,
+    "received": true,
+    "balance": true
+  },
+  // movement page settings
+  // min amount: show transactions greater than this value
+  // low flag: greater than this value flagged yellow
+  // high flag: greater than this value flagged red
+  "movement": {
+    "min_amount": 100000,
+    "low_flag": 100000,
+    "high_flag": 1000000
+  },
+
+  // twitter, facebook, googleplus
+  "twitter": "pandacoinpnd",
+  "facebook": "yourfacebookpage",
+  "discord": "inviteurl",
+  "googleplus": "yourgooglepluspage",
+
+  //genesis
+  "genesis_tx": "fbc9541b2da3a32b93a2bc03feafb5b094abc7a080a37838127765df41dc65fa",
+  "genesis_block": "68fad98bd07315eef904fa3bf4344a38cb4f05549f659272bad7b4e88961d4c5",
+
+  //heavy (enable/disable additional heavy features)
+  "heavy": true,
+
+  //amount of txs to index per address (stores latest n txs)
+  "txcount": 1000,
+
+  //show total sent & received on address page (set false if PoS)
+  "show_sent_received": false,
+
+  // how to calculate current coin supply
+  // COINBASE : total sent from coinbase (PoW)
+  // GETINFO : retreive from getinfo api call (PoS)
+  // HEAVY: retreive from heavys getsupply api call
+  // BALANCES : total of all address balances
+  // TXOUTSET : retreive from gettxoutsetinfo api call
+  "supply": "GETINFO",
+
+  // how to acquire network hashrate
+  // getnetworkhashps: uses getnetworkhashps api call, returns in GH/s
+  // netmhashps: uses getmininginfo.netmhashpsm returns in MH/s
+  // netstakeweight: uses getstakinginfo.netstakeweight
+  "nethash": "netstakeweight",
+
+  // nethash unitd: sets nethash API return units
+  // valid options: "P" (PH/s), "T" (TH/s), "G" (GH/s), "M" (MH/s), "K" (KH/s)
+  "nethash_units": "G",
+
+  // Address labels
+  // example : "JhbrvAmM7kNpwA6wD5KoAsbtikLWWMNPcM": {"label": "This is a burn address", "type":"danger", "url":"http://example.com"}
+  // label (required) = test to display
+  // type (optional) = class of label, valid types: default, primary, warning, danger, success
+  // url (optional) = url to link to for more information
+  "labels": {
+  //  "JSoEdU717hvz8KQVq2HfcqV9A79Wihzusu": {"label": "Developers address", "type":"primary", "url":"http://example.com"},
+  //  "JSWVXHWeYNknPdG9uDrcBoZHztKMFCsndw": {"label": "Cryptsy"}
+      "PCG8dypDCdHnbiQY1Cy82Ngmbc3yxvg6DW": {"label": "JustTheDoctor-Coinbin"},
+      "PSPHvBCJLanMfZorSPqfR4VdunFPRXz7QV": {"label": "Jommy99-Coinbin"}
+  }
+}
