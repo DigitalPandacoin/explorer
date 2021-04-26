@@ -1,4 +1,6 @@
 1.6.2
+* Pandacoin
+* API enhancements for listunspent and sendrawtransaction
 * Remove rewards
 * Add network staking information
 * Additional translation options
@@ -12,7 +14,7 @@
 
 1.6.0
 * Fixed negative/incorrect balance due to sending to yourself (Issues #6, #8)
-* Pages found via search now display full url 
+* Pages found via search now display full url
 * Markets backend overhaul/rewrite
 * Added Yobit support (markets)
 * Added Empoex support (markets)
@@ -48,7 +50,7 @@
 1.4.1
 
 * Added user and password to database settings
-* Mongo authentication 
+* Mongo authentication
 * Added alert (index not up-to-date)
 * New richlist configuration settings
 * added 'npm stop' to kill cluster
@@ -128,11 +130,11 @@
 1.2.0
 
 * added jqplot and datatables
-* new markets page 
+* new markets page
 * added mintpal support (markets)
 * added bittrex support (markets)
-* new display setting (markets, twitter) 
-* new locale entries (markets) 
+* new display setting (markets, twitter)
+* new locale entries (markets)
 * new settings (markets, api)
 * added icons to nav (explorer, markets, api, loading, twitter)
 * new twitter setting

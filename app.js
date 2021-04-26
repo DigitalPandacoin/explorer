@@ -24,7 +24,7 @@ internation.set(app);
 bitcoinapi.setWalletDetails(settings.wallet);
 if (settings.heavy != true) {
   bitcoinapi.setAccess('only', ['getinfo', 'getnetworkhashps', 'getmininginfo','getdifficulty', 'getconnectioncount',
-    'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction', 'getpeerinfo', 'gettxoutsetinfo','getstakinginfo']);
+    'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction', 'getpeerinfo', 'gettxoutsetinfo','getstakinginfo', 'sendrawtransaction']);
 } else {
   // enable additional heavy api calls
   /*
@@ -41,7 +41,7 @@ if (settings.heavy != true) {
   bitcoinapi.setAccess('only', ['getinfo', 'getstakinginfo', 'getnetworkhashps', 'getdifficulty', 'getconnectioncount',
     'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction','getmaxmoney', 'getvote',
     'getmaxvote', 'getphase', 'getreward', 'getnextrewardestimate', 'getnextrewardwhenstr',
-    'getnextrewardwhensec', 'getsupply', 'gettxoutsetinfo', 'getstakinginfo', 'getpeerinfo']);
+    'getnextrewardwhensec', 'getsupply', 'gettxoutsetinfo', 'getstakinginfo', 'getpeerinfo',  'sendrawtransaction', 'listunspent']);
 }
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -54,6 +54,27 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Add headers
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
+
+
 // routes
 app.use('/api', bitcoinapi.app);
 app.use('/', routes);
@@ -62,6 +83,25 @@ app.use('/ext/getmoneysupply', function(req,res){
     res.send(' '+supply);
   });
 });
+
+app.use('/ext/txinfo/:hash', function(req,res){
+  db.get_tx(req.param('hash'), function(tx){
+    if (tx) {
+      var a_ext = {
+        hash: tx.txid,
+        block: tx.blockindex,
+        timestamp: tx.timestamp,
+        total: tx.total,
+        inputs: tx.vin,
+        outputs: tx.vout,
+      };
+      res.send(a_ext);
+    } else {
+      res.send({ error: 'tx not found.', hash: req.param('hash')})
+    }
+  });
+});
+
 
 app.use('/ext/getaddress/:hash', function(req,res){
   db.get_address(req.param('hash'), function(address){
@@ -72,6 +112,19 @@ app.use('/ext/getaddress/:hash', function(req,res){
         received: (address.received / 100000000),
         balance: (address.balance / 100000000).toString().replace(/(^-+)/mg, ''),
         last_txs: address.txs,
+      };
+      res.send(a_ext);
+    } else {
+      res.send({ error: 'address not found.', hash: req.param('hash')})
+    }
+  });
+});
+
+app.use('/ext/listunspent/:hash', function(req,res){
+  db.get_address(req.param('hash'), function(address){
+    if (address) {
+      var a_ext = {
+        unspent_outputs: address.unspent,
       };
       res.send(a_ext);
     } else {
@@ -169,3 +222,17 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+var server = require('https');
+var fs = require('fs');
+var options = {
+cert: fs.readFileSync('/root/.acme.sh/server1.cryptodepot.org/server1.cryptodepot.org.cer'),
+key: fs.readFileSync('/root/.acme.sh/server1.cryptodepot.org/server1.cryptodepot.org.key'),
+};
+
+server.createServer(options, app).listen(3001);
+/*
+var server = app.listen(app.get('port'), function() {
+debug('Express server listening on port ' + server.address().port);
+});
+*/
